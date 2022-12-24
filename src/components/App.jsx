@@ -11,6 +11,25 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount = () => {
+    try {
+      const getData = JSON.parse(localStorage.getItem('contacts'));
+      if (!getData) {
+        return;
+      } else {
+        this.setState({ contacts: getData });
+      }
+    } catch (error) {
+      return;
+    }
+  };
+
+  componentDidUpdate = (_, prevState) => {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  };
+
   onFindChange = inputValue => {
     this.setState({ filter: inputValue });
   };
