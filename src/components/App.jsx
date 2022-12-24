@@ -1,16 +1,64 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-    >
-      React homework template
-    </div>
-  );
-};
+import { React, Component } from 'react';
+
+import { ContactsList } from './ContactList/ContactList';
+import { ContactForm } from './ContactForm/ContactForm';
+import { Filter } from './Filter/Filter';
+import css from './Container/Container.module.css';
+
+export class App extends Component {
+  state = {
+    contacts: [],
+    filter: '',
+  };
+
+  onFindChange = inputValue => {
+    this.setState({ filter: inputValue });
+  };
+
+  addNewContact = newContact => {
+    if (this.state.contacts.find(el => el.name === newContact.name)) {
+      alert(`${newContact.name} has already exists`);
+      return false;
+    }
+    this.setState(prevContacts => {
+      return {
+        contacts: [...prevContacts.contacts, newContact],
+      };
+    });
+    return true;
+  };
+
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(el => el.id !== id),
+    }));
+  };
+
+  getFilteredContacts = () => {
+    const normalize = this.state.filter.toLowerCase().trim();
+    return this.state.contacts.filter(contact => {
+      return contact.name.toLowerCase().trim().includes(normalize);
+    });
+  };
+
+  render() {
+    const filteredContacts = this.getFilteredContacts();
+    return (
+      <div className={css.container}>
+        <ContactForm addNewContact={this.addNewContact} />
+
+        {this.state.contacts.length ? (
+          <>
+            <Filter onFilterInput={this.onFindChange} />{' '}
+            <ContactsList
+              filteredContacts={filteredContacts}
+              deleteContact={this.deleteContact}
+            />
+          </>
+        ) : (
+          <p>There are no contacts in your list</p>
+        )}
+      </div>
+    );
+  }
+}

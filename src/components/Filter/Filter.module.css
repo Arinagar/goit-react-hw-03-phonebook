@@ -1,0 +1,28 @@
+.contacts {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contacts h2 {
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid silver;
+  margin: 0;
+  margin-top: 15px;
+}
+.contacts p {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contacts input {
+  outline: none;
+  border: none;
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
