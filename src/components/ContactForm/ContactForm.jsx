@@ -20,7 +20,7 @@ export class ContactForm extends Component {
 
     const userData = {
       id: nanoid(10),
-      name: this.state.name,
+      name: this.state.name.trim().toLowerCase(),
       number: this.state.number,
     };
     const isSuccess = this.props.addNewContact(userData);
